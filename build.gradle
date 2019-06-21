@@ -1,0 +1,57 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'groovy'
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+configurations {
+    all*.exclude module: 'spring-boot-starter-logging'
+    all*.exclude group: 'ch.qos.logback', module: 'logback-classic'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    all*.exclude module: 'logback-core'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+
+
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation('org.springframework.boot:spring-boot-starter-actuator') {
+        exclude group: 'io.micrometer'
+    }
+    implementation('io.micrometer:micrometer-core:1.1.5')
+    implementation('org.projectlombok:lombok:1.18.4')
+
+    def log4jVersion = '2.11.1'
+    implementation(group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion)
+    implementation(group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: log4jVersion)
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: log4jVersion
+
+
+}
+
+
